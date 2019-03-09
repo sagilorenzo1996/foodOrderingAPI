@@ -1,4 +1,7 @@
 package com.finalYearProject.foodOrderingAPI.repository;
 
-public interface LineItemRepository {
+import com.finalYearProject.foodOrderingAPI.domain.LineItem;
+import org.springframework.data.repository.CrudRepository;
+
+public interface LineItemRepository extends CrudRepository<LineItem, Long> {
 }

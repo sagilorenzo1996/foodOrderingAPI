@@ -32,6 +32,9 @@ public class Item {
     @NotNull
     private String type;
 
+    @NotNull
+    private String availability;
+
     @OneToOne(mappedBy = "item",cascade = CascadeType.ALL)
     private LineItem lineItem;
 }

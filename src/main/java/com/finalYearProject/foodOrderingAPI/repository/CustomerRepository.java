@@ -1,4 +1,7 @@
 package com.finalYearProject.foodOrderingAPI.repository;
 
-public interface CustomerRepository {
+import com.finalYearProject.foodOrderingAPI.domain.Customer;
+import org.springframework.data.repository.CrudRepository;
+
+public interface CustomerRepository extends CrudRepository<Customer, Long> {
 }
