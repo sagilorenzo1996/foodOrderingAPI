@@ -19,35 +19,32 @@ public class CustomerController {
     CustomerRepository customerRepository;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addCustomer(@Valid @RequestBody Customer customer)
-    {
+    public ResponseEntity<String> addCustomer(@Valid @RequestBody Customer customer) {
         Optional<Customer> existingCustomer = customerRepository.findById(customer.getId());
-        if(existingCustomer.isPresent()){
+        if (existingCustomer.isPresent()) {
             return new ResponseEntity<>("Customer already registered", HttpStatus.BAD_REQUEST);
-        }
-        else {
+        } else {
             customerRepository.save(customer);
             return new ResponseEntity<>("Customer added successfully", HttpStatus.OK);
         }
     }
 
     @GetMapping("/{id}")
-    public Optional<Customer> getCustomer(@PathVariable Long id )throws ResourceNotFoundException{
+    public Optional<Customer> getCustomer(@PathVariable Long id) throws ResourceNotFoundException {
         Optional<Customer> customer = customerRepository.findById(id);
-        if(!customer.isPresent()){
+        if (!customer.isPresent()) {
             throw new ResourceNotFoundException("Customer is not resgistered");
         }
         return customer;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable Long id)throws ResourceNotFoundException{
+    public void deleteCustomer(@PathVariable Long id) throws ResourceNotFoundException {
         Optional<Customer> customer = customerRepository.findById(id);
-        if(customer.isPresent()){
+        if (customer.isPresent()) {
             customerRepository.deleteById(id);
-        }
-        else {
-            throw  new ResourceNotFoundException("Customer is not resgistered");
+        } else {
+            throw new ResourceNotFoundException("Customer is not resgistered");
         }
     }
 

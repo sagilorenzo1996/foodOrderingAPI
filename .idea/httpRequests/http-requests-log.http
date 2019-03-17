@@ -1,3 +1,73 @@
+GET http://localhost:8080/item/6
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-17T081546.404.json
+
+###
+
+GET http://localhost:8080/item/1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-17T081546.200.json
+
+###
+
+GET http://localhost:8080/item/1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-17T081326.200.json
+
+###
+
+GET http://localhost:8080/item/1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-17T081218.404.json
+
+###
+
+GET http://localhost:8080/item/1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-17T081217.404.json
+
+###
+
+GET http://localhost:8080/item/1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-17T081202.404.json
+
+###
+
+GET http://localhost:8080/item/1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-17T081132.404.json
+
+###
+
+GET http://localhost:8080/item/1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-17T081054.404.json
+
+###
+
+GET http://localhost:8080/item/1
+Accept: */*
+Cache-Control: no-cache
+
+###
+
 POST http://localhost:8080/customer/insert
 Accept: */*
 Cache-Control: no-cache
