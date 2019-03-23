@@ -103,4 +103,14 @@ public class ItemController {
         return itemRepository.findAllByType(category);
     }
 
+    @GetMapping("/category/status/{id}")
+    public String updateCategoryStatus(@PathVariable Long id,@RequestParam String status) throws ResourceNotFoundException{
+        Optional<Category> category= categoryRepository.findById(id);
+        if(!category.isPresent()){
+            throw new ResourceNotFoundException("Category Not found");
+        }
+        category.get().setStatus(status);
+        return category.get().getCategoryName()+" set to "+status;
+    }
+
 }
