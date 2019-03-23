@@ -23,7 +23,6 @@ public class Item {
     private BigDecimal price;
 
     @NotNull
-    @Max(200)
     private String name;
 
     @NotNull
@@ -31,6 +30,9 @@ public class Item {
 
     @NotNull
     private String type;
+
+    @NotNull
+    private String image;
 
     @NotNull
     private String availability;

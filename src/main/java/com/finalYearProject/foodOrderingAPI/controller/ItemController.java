@@ -98,7 +98,7 @@ public class ItemController {
         return categoryRepository.save(category).getId();
     }
 
-    @GetMapping("/{category}")
+    @GetMapping("/getAll/{category}")
     public Iterable<Item> getItems(@PathVariable String category){
         return itemRepository.findAllByType(category);
     }
