@@ -1,6 +1,8 @@
 package com.finalYearProject.foodOrderingAPI.controller;
 
+import com.finalYearProject.foodOrderingAPI.domain.Category;
 import com.finalYearProject.foodOrderingAPI.domain.Item;
+import com.finalYearProject.foodOrderingAPI.repository.CategoryRepository;
 import com.finalYearProject.foodOrderingAPI.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -17,6 +19,8 @@ public class ItemController {
 
     @Autowired
     ItemRepository itemRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @GetMapping("/all")
     public Iterable<Item> getAllItems() {
@@ -30,12 +34,29 @@ public class ItemController {
     }
 
     @DeleteMapping("/{id}")
-    public Long deleteItem(@PathVariable Long id) throws ResourceNotFoundException {
+    public void deleteItem(@PathVariable Long id) throws ResourceNotFoundException {
         Optional<Item> item = itemRepository.findById(id);
         if(!item.isPresent()){
-            
+            throw new ResourceNotFoundException("Item is not in menu");
         }
-        return itemRepository.save(item).getId();
+        else {
+            itemRepository.delete(item.get());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public Long updateItem(@PathVariable Long id,@RequestBody Item updatedItem) throws ResourceNotFoundException {
+        Optional<Item> item = itemRepository.findById(id);
+        if(!item.isPresent()){
+            throw new ResourceNotFoundException("Item is not in menu");
+        }
+        else {
+            item.get().setDescription(updatedItem.getDescription());
+            item.get().setName(updatedItem.getName());
+            item.get().setPrice(updatedItem.getPrice());
+            item.get().setType(updatedItem.getType());
+        }
+        return itemRepository.save(item.get()).getId();
     }
 
     @GetMapping("/{id}")
@@ -65,6 +86,21 @@ public class ItemController {
         }
         item.get().setAvailability(this.itemUnAvailable);
         return "Item " + item.get().getName() + " made un-available";
+    }
+
+    @GetMapping("/category/{status}")
+    public Iterable<Category> getCategories(@PathVariable String status){
+        return categoryRepository.findAllByStatus(status);
+    }
+
+    @PostMapping("/category")
+    public Long createCategory(@RequestBody Category category){
+        return categoryRepository.save(category).getId();
+    }
+
+    @GetMapping("/{category}")
+    public Iterable<Item> getItems(@PathVariable String category){
+        return itemRepository.findAllByType(category);
     }
 
 }
