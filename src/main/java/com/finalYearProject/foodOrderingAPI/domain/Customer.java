@@ -37,27 +37,31 @@ public class Customer {
     private String lastName;
 
     @NotNull
+    private String password;
+
+    @NotNull
     private String telephone;
 
-    @NotNull @Min(16) @Max(19)
+    @NotNull
     private String cardNumber;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private Date cardExpDate;
 
-    @NotNull @Max(50)
+    @NotNull
     private String addressLineOne;
 
-    @Max(80)
+    @NotNull
     private String addressLineTwo;
 
-    @NotNull @Max(50)
+    @NotNull
     private String city;
 
     @NotNull
     private int totalOrders;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
     private Date registeredOn;
 

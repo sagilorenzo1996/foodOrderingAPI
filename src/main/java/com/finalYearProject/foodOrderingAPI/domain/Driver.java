@@ -42,6 +42,7 @@ public class Driver {
     @NotNull @Max(10)
     private String plateNo;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
     private Date registeredOn;
 
