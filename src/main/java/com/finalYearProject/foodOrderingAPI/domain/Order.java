@@ -26,15 +26,16 @@ public class Order {
     @Column(precision = 10,scale = 2)
     private BigDecimal total;
 
-    @NotNull @Max(20)
+    @NotNull
     private String status;
 
-    @NotNull @Max(20)
+    @NotNull
     private String type;
 
-    @NotNull @Max(30)
+    @NotNull
     private String promo;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Future
     private Date estimatedDeliveryDate;
 

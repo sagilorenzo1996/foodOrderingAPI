@@ -75,4 +75,22 @@ public class DriverController {
             return e.toString();
         }
     }
+
+    @GetMapping("getDriver/{status}")
+    public Iterable<Driver> getDriverByStatus(@PathVariable String status){
+        return driverRepository.findAllByStatus(status);
+    }
+
+    @GetMapping("/setStatus/{id}")
+    public String setDiverStatus(@PathVariable Long id,@RequestParam String status) throws ResourceNotFoundException{
+        Optional<Driver> driver = driverRepository.findById(id);
+        if(!driver.isPresent()){
+            throw new ResourceNotFoundException("Driver Not found");
+        }
+        driver.get().setStatus(status);
+        return driver.get().getFirstName()+"is "+status;
+
+    }
+
+
 }

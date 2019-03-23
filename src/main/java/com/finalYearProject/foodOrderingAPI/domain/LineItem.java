@@ -26,7 +26,6 @@ public class LineItem {
     private int quantity;
 
     @NotNull
-    @Max(15)
     private String status;
 
     @ManyToOne

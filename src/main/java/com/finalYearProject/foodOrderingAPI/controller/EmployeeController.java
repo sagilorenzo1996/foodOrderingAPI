@@ -77,4 +77,20 @@ public class EmployeeController {
             return e.toString();
         }
     }
+
+    @GetMapping("getEmp/{status}")
+    public Iterable<Employee> getEmployeeByStatus(@PathVariable String status){
+        return employeeRepository.findAllByStatus(status);
+    }
+
+    @GetMapping("/setStatus/{id}")
+    public String setEmployeeStatus(@PathVariable Long id,@RequestParam String status) throws ResourceNotFoundException{
+        Optional<Employee> emp = employeeRepository.findById(id);
+        if(!emp.isPresent()){
+            throw new ResourceNotFoundException("Employee Not found");
+        }
+        emp.get().setStatus(status);
+        return emp.get().getFirstName()+"is "+status;
+
+    }
 }
