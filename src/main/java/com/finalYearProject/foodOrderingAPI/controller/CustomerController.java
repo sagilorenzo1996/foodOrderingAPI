@@ -1,6 +1,7 @@
 package com.finalYearProject.foodOrderingAPI.controller;
 
 import com.finalYearProject.foodOrderingAPI.domain.Customer;
+import com.finalYearProject.foodOrderingAPI.domain.Login;
 import com.finalYearProject.foodOrderingAPI.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -23,10 +24,9 @@ public class CustomerController {
         Optional<Customer> existingCustomer = customerRepository.findById(customer.getId());
         if (existingCustomer.isPresent()) {
             return new ResponseEntity<>("Customer already registered", HttpStatus.BAD_REQUEST);
-        } else {
-            customerRepository.save(customer);
-            return new ResponseEntity<>("Customer added successfully", HttpStatus.OK);
         }
+        customerRepository.save(customer);
+        return new ResponseEntity<>("Customer added successfully", HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -47,5 +47,6 @@ public class CustomerController {
             throw new ResourceNotFoundException("Customer is not resgistered");
         }
     }
+
 
 }
