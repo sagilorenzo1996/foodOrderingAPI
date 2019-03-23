@@ -39,39 +39,43 @@ public class OrderController {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    @PostMapping("/initOrder/{id}")
-    public Long initiateOrder(@PathVariable Long id,@Valid @RequestBody Iterable<LineItemRequestBody> lineItemList,@RequestParam String promo,@RequestParam String type)throws ResourceNotFoundException {
-        Optional<Customer> customer = customerRepository.findById(id);
-        if(!customer.isPresent()){
-            throw new ResourceNotFoundException("Cannot find customer");
-        }
-        Optional<Employee> employee = employeeRepository.findById(Long.valueOf(1));
-        if(!employee.isPresent()){
-            throw new ResourceNotFoundException("Cannot find Employee");
-        }
-        Optional<Driver> driver = driverRepository.findById(Long.valueOf(1));
-        if(!driver.isPresent()){
-            throw new ResourceNotFoundException("Cannot find Driver");
-        }
-        Order order = new Order();
-        order.setCustomer(customer.get());
-        order.setEstimatedDeliveryDate(new Date());
-        order.setDriver(driver.get());
-        order.setLocation(customer.get().getAddressLineOne()+","+customer.get().getAddressLineTwo()+","+customer.get().getCity());
-        if(!promo.isEmpty()){
-            order.setPromo(promo);
-        }
-        else{
-            order.setPromo(this.DEFAULT_PROMO);
-        }
-        if(!type.isEmpty()){
-            order.setType(type);
-        }
-        else{
-            order.setType(this.DEFAULT_TYPE);
-        }
-        order.setStatus(this.WAITING);
-        order.setOrderedDate(new Date());
+//    @PostMapping("/initOrder/{id}")
+//    public Long initiateOrder(@PathVariable Long id,@Valid @RequestBody Iterable<LineItemRequestBody> lineItemList,@RequestParam String promo,@RequestParam String type)throws ResourceNotFoundException {
+//        Optional<Customer> customer = customerRepository.findById(id);
+//        if(!customer.isPresent()){
+//            throw new ResourceNotFoundException("Cannot find customer");
+//        }
+//        Optional<Employee> employee = employeeRepository.findById(Long.valueOf(1));
+//        if(!employee.isPresent()){
+//            throw new ResourceNotFoundException("Cannot find Employee");
+//        }
+//        Optional<Driver> driver = driverRepository.findById(Long.valueOf(1));
+//        if(!driver.isPresent()){
+//            throw new ResourceNotFoundException("Cannot find Driver");
+//        }
+//        Order order = new Order();
+//        order.setCustomer(customer.get());
+//        order.setEstimatedDeliveryDate(new Date());
+//        order.setDriver(driver.get());
+//        order.setLocation(customer.get().getAddressLineOne()+","+customer.get().getAddressLineTwo()+","+customer.get().getCity());
+//        if(!promo.isEmpty()){
+//            order.setPromo(promo);
+//        }
+//        else{
+//            order.setPromo(this.DEFAULT_PROMO);
+//        }
+//        if(!type.isEmpty()){
+//            order.setType(type);
+//        }
+//        else{
+//            order.setType(this.DEFAULT_TYPE);
+//        }
+//        order.setStatus(this.WAITING);
+//        order.setOrderedDate(new Date());
+//        lineItemList.forEach(name -> {
+//
+//        });
+
     }
 
 
