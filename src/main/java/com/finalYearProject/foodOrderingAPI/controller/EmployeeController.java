@@ -8,7 +8,6 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.Optional;
 
 @RestController
@@ -54,6 +53,8 @@ public class EmployeeController {
         emp.get().setPosition(updatedEmp.getPosition());
         emp.get().setTelephone(updatedEmp.getTelephone());
         emp.get().setStatus(updatedEmp.getStatus());
+        emp.get().setPassword(updatedEmp.getPassword());
+
 
         return employeeRepository.save(emp.get()).getId();
 
