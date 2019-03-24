@@ -46,6 +46,7 @@ public class OrderController {
     EmployeeRepository employeeRepository;
 
     @PostMapping("/initOrder/{id}")
+    @Transactional
     public Long initiateOrder(@PathVariable Long id,@Valid @RequestBody LineItemRequestBody lineItemList,@RequestParam String promo,@RequestParam String type)throws ResourceNotFoundException,IllegalStateException {
         Optional<Customer> customer = customerRepository.findById(id);
         if(!customer.isPresent()){
@@ -102,17 +103,6 @@ public class OrderController {
         return orderRepository.save(placedOrder).getId();
     }
 
-//    @GetMapping("/getByStatus/{status}")
-//    public List<Object> getOrdersByStatus(@PathVariable String status) {
-//        if (status.equals(this.WAITING)) {
-//            return orderRepository.findAllWaitingOrdersNative();
-//        }
-//        if (status.equals(this.INPROGRESS)) {
-//            return orderRepository.findAllInprogressOrdersNative();
-//        }
-//        return orderRepository.findAllCompletedOrdersNative();
-//    }
-
     @GetMapping("/getByStatus/{status}")
     public Iterable<Order> getOrdersByStatus(@PathVariable String status) {
         if (status.equals(this.WAITING)) {
@@ -131,5 +121,34 @@ public class OrderController {
             throw new ResourceNotFoundException("order not found");
         }
         return order;
+    }
+
+    @GetMapping("/assign")
+    @Transactional
+    public String assignOrder(@RequestParam Long order,@RequestParam Long driver,@RequestParam Long emp)throws ResourceNotFoundException{
+        Optional<Order> orderObj = orderRepository.findById(order);
+        Optional<Employee> empObj = employeeRepository.findById(emp);
+        Optional<Driver> driverObj = driverRepository.findById(driver);
+        if(!orderObj.isPresent() || !empObj.isPresent() || !driverObj.isPresent()){
+            throw new ResourceNotFoundException("Cant process order");
+        }
+        orderObj.get().setDriverId(driverObj.get().getId());
+        Iterable<LineItem> lineItems = lineItemRepository.findAllByOrderId(order);
+        lineItems.forEach(item->{
+            item.setEmployeeId(emp);
+            lineItemRepository.save(item);
+        });
+        return "Order Asigned";
+    }
+
+    @GetMapping("/lineItem/{id}")
+    public String changeLineItem(@PathVariable Long id,@RequestParam String status) throws ResourceNotFoundException{
+        Optional<LineItem> lineItem = lineItemRepository.findById(id);
+        if(!lineItem.isPresent()){
+            throw new ResourceNotFoundException("Line Item Not Found");
+        }
+        lineItem.get().setStatus(status);
+        lineItemRepository.save(lineItem.get());
+        return "Items status set to "+status;
     }
 }
