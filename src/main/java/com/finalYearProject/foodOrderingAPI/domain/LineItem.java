@@ -28,16 +28,15 @@ public class LineItem {
     @NotNull
     private String status;
 
+    @NotNull
+    private Long employeeId;
+
+    @NotNull
+    private Long itemId;
+
     @ManyToOne
     @JoinColumn
     private Order order;
 
-    @OneToOne
-    @JoinColumn
-    private Item item;
-
-    @OneToOne
-    @JoinColumn
-    private Employee employee;
 
 }

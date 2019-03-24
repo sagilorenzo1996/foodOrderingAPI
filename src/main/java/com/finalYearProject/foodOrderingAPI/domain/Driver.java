@@ -47,7 +47,7 @@ public class Driver {
     @NotNull
     private Date registeredOn;
 
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Order> orders;
 
 }

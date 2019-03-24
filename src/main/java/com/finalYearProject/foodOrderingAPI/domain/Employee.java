@@ -43,6 +43,4 @@ public class Employee {
     @NotNull
     private String password;
 
-    @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
-    private LineItem lineItem;
 }
