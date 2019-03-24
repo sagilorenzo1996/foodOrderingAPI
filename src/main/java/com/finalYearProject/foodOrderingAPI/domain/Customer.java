@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Customer")
-public class Customer {
+public class Customer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,8 +64,6 @@ public class Customer {
     @NotNull
     private Date registeredOn;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL,orphanRemoval = true)
-    private Set<Order> orders;
 
 
 }

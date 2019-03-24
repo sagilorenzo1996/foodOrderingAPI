@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "LineItem")
-public class LineItem {
+public class LineItem  implements Serializable {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private  Long id;
@@ -34,9 +35,8 @@ public class LineItem {
     @NotNull
     private Long itemId;
 
-    @ManyToOne
-    @JoinColumn
-    private Order order;
+    @NotNull
+    private Long OrderId;
 
 
 }

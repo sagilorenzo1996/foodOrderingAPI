@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/order")
@@ -23,6 +23,9 @@ public class OrderController {
     private String DEFAULT_TYPE  = "default";
     private String WAITING  = "waiting";
     private String PLACED  = "placed";
+    private String COMPLETED = "completed";
+    private String INPROGRESS = "inprogress";
+    private String ALL = "all";
 
     @Autowired
     ItemRepository itemRepository;
@@ -58,9 +61,9 @@ public class OrderController {
             throw new ResourceNotFoundException("Cannot find Driver");
         }
         Order order = new Order();
-        order.setCustomer(customer.get());
+        order.setCustomerId(customer.get().getId());
         order.setEstimatedDeliveryDate(new Date());
-        order.setDriver(driver.get());
+        order.setDriverId(driver.get().getId());
         order.setLocation(customer.get().getAddressLineOne()+","+customer.get().getAddressLineTwo()+","+customer.get().getCity());
         if(!type.isEmpty()){
             order.setType(type);
@@ -90,7 +93,7 @@ public class OrderController {
             }
             lineItem.setEmployeeId(employee.get().getId());
             lineItem.setItemId(detailedItem.get().getId());
-            lineItem.setOrder(placedOrder);
+            lineItem.setOrderId(placedOrder.getId());
             lineItem.setQuantity(item.getQuantity());
             lineItem.setStatus(this.PLACED);
             lineItem.setPrice(BigDecimal.valueOf(item.getPrice()));
@@ -99,6 +102,34 @@ public class OrderController {
         return orderRepository.save(placedOrder).getId();
     }
 
+//    @GetMapping("/getByStatus/{status}")
+//    public List<Object> getOrdersByStatus(@PathVariable String status) {
+//        if (status.equals(this.WAITING)) {
+//            return orderRepository.findAllWaitingOrdersNative();
+//        }
+//        if (status.equals(this.INPROGRESS)) {
+//            return orderRepository.findAllInprogressOrdersNative();
+//        }
+//        return orderRepository.findAllCompletedOrdersNative();
+//    }
 
+    @GetMapping("/getByStatus/{status}")
+    public Iterable<Order> getOrdersByStatus(@PathVariable String status) {
+        if (status.equals(this.WAITING)) {
+            return orderRepository.findAllByStatus(this.WAITING);
+        }
+        if (status.equals(this.INPROGRESS)) {
+            return orderRepository.findAllByStatus(this.INPROGRESS);
+        }
+        return orderRepository.findAllByStatus(this.INPROGRESS);
+    }
 
+    @GetMapping("/{id}")
+    public Optional<Order> getOrder(@PathVariable Long id)throws ResourceNotFoundException{
+        Optional<Order> order = orderRepository.findById(id);
+        if(!order.isPresent()){
+            throw new ResourceNotFoundException("order not found");
+        }
+        return order;
+    }
 }

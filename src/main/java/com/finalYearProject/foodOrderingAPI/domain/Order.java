@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
@@ -17,7 +18,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Item_Order")
-public class Order {
+public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
@@ -45,15 +46,10 @@ public class Order {
     @NotNull
     private  String location;
 
-    @ManyToOne
-    @JoinColumn
-    private Customer customer;
+    @NotNull
+    private Long customerId;
 
-    @ManyToOne
-    @JoinColumn
-    private Driver driver;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private Set<LineItem> lineItems;
+    @NotNull
+    private Long driverId ;
 
 }

@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Item")
-public class Item {
+public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private  Long id;
