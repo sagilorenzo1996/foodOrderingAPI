@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/order")
@@ -24,6 +23,7 @@ public class OrderController {
     private String WAITING  = "waiting";
     private String PLACED  = "placed";
     private String COMPLETED = "completed";
+    private String DELIVERED = "delivered";
     private String INPROGRESS = "inprogress";
     private String ALL = "all";
 
@@ -111,7 +111,10 @@ public class OrderController {
         if (status.equals(this.INPROGRESS)) {
             return orderRepository.findAllByStatus(this.INPROGRESS);
         }
-        return orderRepository.findAllByStatus(this.INPROGRESS);
+        if (status.equals(this.COMPLETED)) {
+            return orderRepository.findAllByStatus(this.COMPLETED);
+        }
+        return orderRepository.findAllByStatus(this.DELIVERED);
     }
 
     @GetMapping("/{id}")
@@ -150,5 +153,16 @@ public class OrderController {
         lineItem.get().setStatus(status);
         lineItemRepository.save(lineItem.get());
         return "Items status set to "+status;
+    }
+
+    @GetMapping("/setStatus/{id}")
+    public String changeOrderStatus(@PathVariable Long id,@RequestParam String status) throws ResourceNotFoundException{
+        Optional<Order> order = orderRepository.findById(id);
+        if(!order.isPresent()){
+            throw new ResourceNotFoundException("Line Item Not Found");
+        }
+        order.get().setStatus(status);
+        orderRepository.save(order.get());
+        return "order status set to "+status;
     }
 }
